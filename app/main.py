@@ -19,7 +19,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--head", default="HEAD", help="Head git ref (default: HEAD)")
     parser.add_argument(
         "--model",
-        default="claude-3-5-haiku-latest",
+        default="claude-haiku-4-5",
         help="Anthropic model name",
     )
     parser.add_argument(

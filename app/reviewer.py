@@ -9,7 +9,7 @@ from pydantic import ValidationError
 from app.schemas import ReviewResult
 
 # Default model which will keep costs low by default
-DEFAULT_MODEL = "claude-3-5-haiku-latest"
+DEFAULT_MODEL = "claude-haiku-4-5"
 
 
 def extract_json(text: str) -> str:

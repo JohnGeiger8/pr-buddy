@@ -16,25 +16,25 @@ def build_user_prompt(
 ) -> str:
     changed_files_text = "\n".join(f"- {f}" for f in changed_files) if changed_files else "- None"
 
-    schema_description = """
+    schema_description = f"""
 Return JSON with exactly this shape:
 
-{
+{{
   "summary": "string",
   "risk_level": "low | medium | high",
   "findings": [
-    {
+    {{
       "file": "string",
       "severity": "low | medium | high",
       "category": "bug | missing_test | maintainability | security",
       "line_hint": "string",
       "issue": "string",
       "suggestion": "string"
-    }
+    }}
   ],
   "missing_tests": ["string"],
   "confidence": "low | medium | high"
-}
+}}
 
 Rules:
 - Return at most {max_findings} findings
@@ -42,7 +42,7 @@ Rules:
 - Only include findings supported by the provided diff
 - Keep summary to 1-3 sentences
 - Return valid JSON only
-""".strip().format(max_findings=max_findings, max_missing_tests=max_missing_tests)
+""".strip()
 
     return f"""
 Repository rules:
