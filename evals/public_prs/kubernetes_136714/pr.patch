@@ -1,0 +1,69 @@
+diff --git a/pkg/probe/http/http.go b/pkg/probe/http/http.go
+index 20e33da8ed478..d7f41cdc1b3a7 100644
+--- a/pkg/probe/http/http.go
++++ b/pkg/probe/http/http.go
+@@ -129,7 +129,8 @@ func RedirectChecker(followNonLocalRedirects bool) func(*http.Request, []*http.R
+ 	}
+ 
+ 	return func(req *http.Request, via []*http.Request) error {
+-		if req.URL.Hostname() != via[0].URL.Hostname() {
++		orig := via[0].URL
++		if req.URL.Hostname() != orig.Hostname() || req.URL.Scheme != orig.Scheme {
+ 			return http.ErrUseLastResponse
+ 		}
+ 		// Default behavior: stop after 10 redirects.
+diff --git a/pkg/probe/http/http_test.go b/pkg/probe/http/http_test.go
+index 894d4783b1205..fc00608a42695 100644
+--- a/pkg/probe/http/http_test.go
++++ b/pkg/probe/http/http_test.go
+@@ -573,3 +573,31 @@ func TestHTTPProbeChecker_PayloadNormal(t *testing.T) {
+ 		assert.Equal(t, string(normalPayload), body)
+ 	})
+ }
++
++func TestHTTPProbeBlocksSchemeChangingRedirect(t *testing.T) {
++	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
++		if r.URL.Path == "/health" {
++			httpsURL := "https://" + r.Host + "/health"
++			http.Redirect(w, r, httpsURL, http.StatusMovedPermanently)
++			return
++		}
++		w.WriteHeader(http.StatusOK)
++	})
++
++	server := httptest.NewServer(handler)
++	defer server.Close()
++
++	target, err := url.Parse(server.URL + "/health")
++	require.NoError(t, err)
++
++	prober := New(false) // followNonLocalRedirects = false
++
++	req, err := NewProbeRequest(target, nil)
++	require.NoError(t, err)
++
++	result, _, err := prober.Probe(req, 1*time.Second)
++	require.NoError(t, err)
++
++	// Blocked redirect → Warning (expected Kubernetes behavior)
++	assert.Equal(t, probe.Warning, result)
++}
+diff --git a/test/e2e/network/hostport.go b/test/e2e/network/hostport.go
+index 22f9033e38c1b..f9b6280a544e1 100644
+--- a/test/e2e/network/hostport.go
++++ b/test/e2e/network/hostport.go
+@@ -78,10 +78,10 @@ var _ = common.SIGDescribe("HostPort", func() {
+ 		randomNode := &nodes.Items[rand.Intn(len(nodes.Items))]
+ 
+ 		ips := e2enode.GetAddressesByTypeAndFamily(randomNode, v1.NodeInternalIP, family)
+-		if len(ips) == 0 {
+-			framework.Failf("Failed to get NodeIP")
+-		}
+-		hostIP := ips[0]
++			if len(ips) == 0 {
++				ginkgo.Skip("node has no InternalIP; skipping HostPort conformance test")
++			}
++			hostIP := ips[0]
+ 		port := int32(54323)
+ 
+ 		// Create pods with the same HostPort

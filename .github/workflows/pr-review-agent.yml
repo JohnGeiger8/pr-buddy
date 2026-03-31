@@ -3,6 +3,35 @@ name: PR Review Agent
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+  workflow_call:
+    inputs:
+      python-version:
+        required: false
+        type: string
+        default: "3.11"
+      provider:
+        required: false
+        type: string
+        default: ""
+      model:
+        required: false
+        type: string
+        default: ""
+      config-file:
+        required: false
+        type: string
+        default: ".pr-buddy.yml"
+      max-diff-lines:
+        required: false
+        type: string
+        default: ""
+      max-output-tokens:
+        required: false
+        type: string
+        default: ""
+    secrets:
+      ANTHROPIC_API_KEY:
+        required: true
 
 jobs:
   review:
@@ -12,28 +41,79 @@ jobs:
       contents: read
 
     steps:
-      - name: Checkout
+      - name: Derive engine ref
+        id: engine-ref
+        shell: bash
+        run: |
+          workflow_ref="${{ github.workflow_ref }}"
+          engine_repo="${workflow_ref%%/.github/workflows/*}"
+          engine_git_ref="${workflow_ref##*@}"
+          echo "repo=$engine_repo" >> "$GITHUB_OUTPUT"
+          echo "ref=$engine_git_ref" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout engine repo
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ steps.engine-ref.outputs.repo }}
+          ref: ${{ steps.engine-ref.outputs.ref }}
+          path: pr-buddy-engine
+
+      - name: Checkout PR code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          path: repo-under-review
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: ${{ inputs.python-version || '3.11' }}
 
       - name: Install dependencies
+        working-directory: pr-buddy-engine
         run: pip install -r requirements.txt
 
       - name: Run PR Review Agent
+        working-directory: pr-buddy-engine
+        shell: bash
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python -m app.main \
-            --base "${{ github.event.pull_request.base.sha }}" \
-            --head "${{ github.event.pull_request.head.sha }}" \
-            --post-comment \
-            --owner "${{ github.repository_owner }}" \
-            --repo "${{ github.event.repository.name }}" \
+          extra_args=()
+          if [[ -n "${{ inputs.provider }}" ]]; then
+            extra_args+=(--provider "${{ inputs.provider }}")
+          fi
+          if [[ -n "${{ inputs.model }}" ]]; then
+            extra_args+=(--model "${{ inputs.model }}")
+          fi
+          if [[ -n "${{ inputs.max-diff-lines }}" ]]; then
+            extra_args+=(--max-diff-lines "${{ inputs.max-diff-lines }}")
+          fi
+          if [[ -n "${{ inputs.max-output-tokens }}" ]]; then
+            extra_args+=(--max-output-tokens "${{ inputs.max-output-tokens }}")
+          fi
+
+          cmd=(
+            python -m app.main
+            --base "${{ github.event.pull_request.base.sha }}"
+            --head "${{ github.event.pull_request.head.sha }}"
+            --repo-path "../repo-under-review"
+            --config-file "${{ inputs.config-file || '.pr-buddy.yml' }}"
+            --usage-output-file "../repo-under-review/.pr-buddy-artifacts/usage.json"
+            --summary-output-file "../repo-under-review/.pr-buddy-artifacts/summary.md"
+            --post-comment
+            --owner "${{ github.repository_owner }}"
+            --repo "${{ github.event.repository.name }}"
             --pr-number "${{ github.event.pull_request.number }}"
+          )
+          cmd+=("${extra_args[@]}")
+          "${cmd[@]}"
+
+      - name: Upload usage artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pr-buddy-usage-${{ github.run_id }}-${{ github.run_attempt }}
+          path: repo-under-review/.pr-buddy-artifacts/
+          if-no-files-found: warn
