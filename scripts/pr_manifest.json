@@ -1,0 +1,28 @@
+{
+  "prs": [
+    {
+      "repo": "microsoft/vscode",
+      "pr_number": 305127,
+      "slug": "vscode_305127",
+      "notes": "User-selected PR. Likely UI or extension-related change; review discussion for ground truth."
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "pr_number": 15177,
+      "slug": "fastapi_15177",
+      "notes": "User-selected PR. Backend framework change; good candidate for request/validation/test coverage analysis."
+    },
+    {
+      "repo": "django/django",
+      "pr_number": 20911,
+      "slug": "django_20911",
+      "notes": "User-selected PR. Mature codebase; likely strong review signals and maintainability concerns."
+    },
+    {
+      "repo": "axios/axios",
+      "pr_number": 7256,
+      "slug": "axios_7256",
+      "notes": "User-selected PR. Networking/client logic; good for edge cases and error handling evaluation."
+    }
+  ]
+}

@@ -1,0 +1,467 @@
+diff --git a/docs/az/mkdocs.yml b/docs/az/mkdocs.yml
+new file mode 100644
+index 0000000000000..edeb6c2e37a8e
+--- /dev/null
++++ b/docs/az/mkdocs.yml
+@@ -0,0 +1,128 @@
++site_name: FastAPI
++site_description: FastAPI framework, high performance, easy to learn, fast to code, ready for production
++site_url: https://fastapi.tiangolo.com/az/
++theme:
++  name: material
++  custom_dir: overrides
++  palette:
++  - scheme: default
++    primary: teal
++    accent: amber
++    toggle:
++      icon: material/lightbulb-outline
++      name: Switch to light mode
++  - scheme: slate
++    primary: teal
++    accent: amber
++    toggle:
++      icon: material/lightbulb
++      name: Switch to dark mode
++  features:
++  - search.suggest
++  - search.highlight
++  - content.tabs.link
++  icon:
++    repo: fontawesome/brands/github-alt
++  logo: https://fastapi.tiangolo.com/img/icon-white.svg
++  favicon: https://fastapi.tiangolo.com/img/favicon.png
++  language: en
++repo_name: tiangolo/fastapi
++repo_url: https://github.com/tiangolo/fastapi
++edit_uri: ''
++google_analytics:
++- UA-133183413-1
++- auto
++plugins:
++- search
++- markdownextradata:
++    data: data
++nav:
++- FastAPI: index.md
++- Languages:
++  - en: /
++  - az: /az/
++  - de: /de/
++  - es: /es/
++  - fr: /fr/
++  - id: /id/
++  - it: /it/
++  - ja: /ja/
++  - ko: /ko/
++  - pl: /pl/
++  - pt: /pt/
++  - ru: /ru/
++  - sq: /sq/
++  - tr: /tr/
++  - uk: /uk/
++  - zh: /zh/
++markdown_extensions:
++- toc:
++    permalink: true
++- markdown.extensions.codehilite:
++    guess_lang: false
++- mdx_include:
++    base_path: docs
++- admonition
++- codehilite
++- extra
++- pymdownx.superfences:
++    custom_fences:
++    - name: mermaid
++      class: mermaid
++      format: !!python/name:pymdownx.superfences.fence_code_format ''
++- pymdownx.tabbed
++extra:
++  social:
++  - icon: fontawesome/brands/github-alt
++    link: https://github.com/tiangolo/fastapi
++  - icon: fontawesome/brands/discord
++    link: https://discord.gg/VQjSZaeJmf
++  - icon: fontawesome/brands/twitter
++    link: https://twitter.com/fastapi
++  - icon: fontawesome/brands/linkedin
++    link: https://www.linkedin.com/in/tiangolo
++  - icon: fontawesome/brands/dev
++    link: https://dev.to/tiangolo
++  - icon: fontawesome/brands/medium
++    link: https://medium.com/@tiangolo
++  - icon: fontawesome/solid/globe
++    link: https://tiangolo.com
++  alternate:
++  - link: /
++    name: en - English
++  - link: /az/
++    name: az
++  - link: /de/
++    name: de
++  - link: /es/
++    name: es - español
++  - link: /fr/
++    name: fr - français
++  - link: /id/
++    name: id
++  - link: /it/
++    name: it - italiano
++  - link: /ja/
++    name: ja - 日本語
++  - link: /ko/
++    name: ko - 한국어
++  - link: /pl/
++    name: pl
++  - link: /pt/
++    name: pt - português
++  - link: /ru/
++    name: ru - русский язык
++  - link: /sq/
++    name: sq - shqip
++  - link: /tr/
++    name: tr - Türkçe
++  - link: /uk/
++    name: uk - українська мова
++  - link: /zh/
++    name: zh - 汉语
++extra_css:
++- https://fastapi.tiangolo.com/css/termynal.css
++- https://fastapi.tiangolo.com/css/custom.css
++extra_javascript:
++- https://fastapi.tiangolo.com/js/termynal.js
++- https://fastapi.tiangolo.com/js/custom.js
+diff --git a/docs/az/overrides/.gitignore b/docs/az/overrides/.gitignore
+new file mode 100644
+index 0000000000000..e69de29bb2d1d
+diff --git a/docs/de/mkdocs.yml b/docs/de/mkdocs.yml
+index 77882db0327c3..bcd521c805fea 100644
+--- a/docs/de/mkdocs.yml
++++ b/docs/de/mkdocs.yml
+@@ -40,6 +40,7 @@ nav:
+ - FastAPI: index.md
+ - Languages:
+   - en: /
++  - az: /az/
+   - de: /de/
+   - es: /es/
+   - fr: /fr/
+@@ -90,6 +91,8 @@ extra:
+   alternate:
+   - link: /
+     name: en - English
++  - link: /az/
++    name: az
+   - link: /de/
+     name: de
+   - link: /es/
+diff --git a/docs/en/mkdocs.yml b/docs/en/mkdocs.yml
+index a11ac6871289f..4123df2a79cbd 100644
+--- a/docs/en/mkdocs.yml
++++ b/docs/en/mkdocs.yml
+@@ -40,6 +40,7 @@ nav:
+ - FastAPI: index.md
+ - Languages:
+   - en: /
++  - az: /az/
+   - de: /de/
+   - es: /es/
+   - fr: /fr/
+@@ -163,9 +164,6 @@ markdown_extensions:
+     permalink: true
+ - markdown.extensions.codehilite:
+     guess_lang: false
+-# Uncomment these 2 lines during development to more easily add highlights
+-# - pymdownx.highlight:
+-#     linenums: true
+ - mdx_include:
+     base_path: docs
+ - admonition
+@@ -196,6 +194,8 @@ extra:
+   alternate:
+   - link: /
+     name: en - English
++  - link: /az/
++    name: az
+   - link: /de/
+     name: de
+   - link: /es/
+diff --git a/docs/es/mkdocs.yml b/docs/es/mkdocs.yml
+index 3c0c65c877990..35127ac2714a7 100644
+--- a/docs/es/mkdocs.yml
++++ b/docs/es/mkdocs.yml
+@@ -40,6 +40,7 @@ nav:
+ - FastAPI: index.md
+ - Languages:
+   - en: /
++  - az: /az/
+   - de: /de/
+   - es: /es/
+   - fr: /fr/
+@@ -99,6 +100,8 @@ extra:
+   alternate:
+   - link: /
+     name: en - English
++  - link: /az/
++    name: az
+   - link: /de/
+     name: de
+   - link: /es/
+diff --git a/docs/fr/mkdocs.yml b/docs/fr/mkdocs.yml
+index 4891a29caeac2..b7ebfe634d9a2 100644
+--- a/docs/fr/mkdocs.yml
++++ b/docs/fr/mkdocs.yml
+@@ -40,6 +40,7 @@ nav:
+ - FastAPI: index.md
+ - Languages:
+   - en: /
++  - az: /az/
+   - de: /de/
+   - es: /es/
+   - fr: /fr/
+@@ -98,6 +99,8 @@ extra:
+   alternate:
+   - link: /
+     name: en - English
++  - link: /az/
++    name: az
+   - link: /de/
+     name: de
+   - link: /es/
+diff --git a/docs/id/mkdocs.yml b/docs/id/mkdocs.yml
+index 88028533ec626..31488ee33a009 100644
+--- a/docs/id/mkdocs.yml
++++ b/docs/id/mkdocs.yml
+@@ -40,6 +40,7 @@ nav:
+ - FastAPI: index.md
+ - Languages:
+   - en: /
++  - az: /az/
+   - de: /de/
+   - es: /es/
+   - fr: /fr/
+@@ -89,6 +90,8 @@ extra:
+   alternate:
+   - link: /
+     name: en - English
++  - link: /az/
++    name: az
+   - link: /de/
+     name: de
+   - link: /es/
+diff --git a/docs/it/mkdocs.yml b/docs/it/mkdocs.yml
+index 477f9c55ae715..10e6198f26dc3 100644
+--- a/docs/it/mkdocs.yml
++++ b/docs/it/mkdocs.yml
+@@ -40,6 +40,7 @@ nav:
+ - FastAPI: index.md
+ - Languages:
+   - en: /
++  - az: /az/
+   - de: /de/
+   - es: /es/
+   - fr: /fr/
+@@ -89,6 +90,8 @@ extra:
+   alternate:
+   - link: /
+     name: en - English
++  - link: /az/
++    name: az
+   - link: /de/
+     name: de
+   - link: /es/
+diff --git a/docs/ja/mkdocs.yml b/docs/ja/mkdocs.yml
+index 2617fec96c85c..37f6548d8c9e3 100644
+--- a/docs/ja/mkdocs.yml
++++ b/docs/ja/mkdocs.yml
+@@ -40,6 +40,7 @@ nav:
+ - FastAPI: index.md
+ - Languages:
+   - en: /
++  - az: /az/
+   - de: /de/
+   - es: /es/
+   - fr: /fr/
+@@ -129,6 +130,8 @@ extra:
+   alternate:
+   - link: /
+     name: en - English
++  - link: /az/
++    name: az
+   - link: /de/
+     name: de
+   - link: /es/
+diff --git a/docs/ko/mkdocs.yml b/docs/ko/mkdocs.yml
+index 6ee22afba77f7..bb66c8987ac88 100644
+--- a/docs/ko/mkdocs.yml
++++ b/docs/ko/mkdocs.yml
+@@ -40,6 +40,7 @@ nav:
+ - FastAPI: index.md
+ - Languages:
+   - en: /
++  - az: /az/
+   - de: /de/
+   - es: /es/
+   - fr: /fr/
+@@ -95,6 +96,8 @@ extra:
+   alternate:
+   - link: /
+     name: en - English
++  - link: /az/
++    name: az
+   - link: /de/
+     name: de
+   - link: /es/
+diff --git a/docs/pl/mkdocs.yml b/docs/pl/mkdocs.yml
+index 379957783a4e2..0775048e9f5b3 100644
+--- a/docs/pl/mkdocs.yml
++++ b/docs/pl/mkdocs.yml
+@@ -40,6 +40,7 @@ nav:
+ - FastAPI: index.md
+ - Languages:
+   - en: /
++  - az: /az/
+   - de: /de/
+   - es: /es/
+   - fr: /fr/
+@@ -89,6 +90,8 @@ extra:
+   alternate:
+   - link: /
+     name: en - English
++  - link: /az/
++    name: az
+   - link: /de/
+     name: de
+   - link: /es/
+diff --git a/docs/pt/mkdocs.yml b/docs/pt/mkdocs.yml
+index ec0684d5450ee..be4b9f9c01018 100644
+--- a/docs/pt/mkdocs.yml
++++ b/docs/pt/mkdocs.yml
+@@ -40,6 +40,7 @@ nav:
+ - FastAPI: index.md
+ - Languages:
+   - en: /
++  - az: /az/
+   - de: /de/
+   - es: /es/
+   - fr: /fr/
+@@ -106,6 +107,8 @@ extra:
+   alternate:
+   - link: /
+     name: en - English
++  - link: /az/
++    name: az
+   - link: /de/
+     name: de
+   - link: /es/
+@@ -140,4 +143,3 @@ extra_css:
+ extra_javascript:
+ - https://fastapi.tiangolo.com/js/termynal.js
+ - https://fastapi.tiangolo.com/js/custom.js
+-
+diff --git a/docs/ru/mkdocs.yml b/docs/ru/mkdocs.yml
+index 359cce8eb2961..eee98a9bc0b7a 100644
+--- a/docs/ru/mkdocs.yml
++++ b/docs/ru/mkdocs.yml
+@@ -40,6 +40,7 @@ nav:
+ - FastAPI: index.md
+ - Languages:
+   - en: /
++  - az: /az/
+   - de: /de/
+   - es: /es/
+   - fr: /fr/
+@@ -89,6 +90,8 @@ extra:
+   alternate:
+   - link: /
+     name: en - English
++  - link: /az/
++    name: az
+   - link: /de/
+     name: de
+   - link: /es/
+diff --git a/docs/sq/mkdocs.yml b/docs/sq/mkdocs.yml
+index 53019fea5d372..1d2adbb7dcf94 100644
+--- a/docs/sq/mkdocs.yml
++++ b/docs/sq/mkdocs.yml
+@@ -40,6 +40,7 @@ nav:
+ - FastAPI: index.md
+ - Languages:
+   - en: /
++  - az: /az/
+   - de: /de/
+   - es: /es/
+   - fr: /fr/
+@@ -89,6 +90,8 @@ extra:
+   alternate:
+   - link: /
+     name: en - English
++  - link: /az/
++    name: az
+   - link: /de/
+     name: de
+   - link: /es/
+diff --git a/docs/tr/mkdocs.yml b/docs/tr/mkdocs.yml
+index 5e429fdefbeac..0bfad5c8c970f 100644
+--- a/docs/tr/mkdocs.yml
++++ b/docs/tr/mkdocs.yml
+@@ -40,6 +40,7 @@ nav:
+ - FastAPI: index.md
+ - Languages:
+   - en: /
++  - az: /az/
+   - de: /de/
+   - es: /es/
+   - fr: /fr/
+@@ -89,6 +90,8 @@ extra:
+   alternate:
+   - link: /
+     name: en - English
++  - link: /az/
++    name: az
+   - link: /de/
+     name: de
+   - link: /es/
+diff --git a/docs/uk/mkdocs.yml b/docs/uk/mkdocs.yml
+index 4d8636bd68eba..41aec880cad96 100644
+--- a/docs/uk/mkdocs.yml
++++ b/docs/uk/mkdocs.yml
+@@ -40,6 +40,7 @@ nav:
+ - FastAPI: index.md
+ - Languages:
+   - en: /
++  - az: /az/
+   - de: /de/
+   - es: /es/
+   - fr: /fr/
+@@ -89,6 +90,8 @@ extra:
+   alternate:
+   - link: /
+     name: en - English
++  - link: /az/
++    name: az
+   - link: /de/
+     name: de
+   - link: /es/
+diff --git a/docs/zh/mkdocs.yml b/docs/zh/mkdocs.yml
+index d73afaa934a65..3c20f1c3373ce 100644
+--- a/docs/zh/mkdocs.yml
++++ b/docs/zh/mkdocs.yml
+@@ -40,6 +40,7 @@ nav:
+ - FastAPI: index.md
+ - Languages:
+   - en: /
++  - az: /az/
+   - de: /de/
+   - es: /es/
+   - fr: /fr/
+@@ -140,6 +141,8 @@ extra:
+   alternate:
+   - link: /
+     name: en - English
++  - link: /az/
++    name: az
+   - link: /de/
+     name: de
+   - link: /es/
